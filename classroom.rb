@@ -4,8 +4,7 @@ class Classroom
     @student_list = []
   end
 
-  attr_accessor :label
-  attr_accessor :student_list
+  attr_accessor :label, :student_list
 
   def add_student(student_name)
     @student_list.push(student_name)
