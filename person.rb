@@ -10,9 +10,8 @@ class Person < Nameable
     super()
   end
 
-  def add_rental(rental)
-    @rentals.push(rental)
-    rental.person = self
+  def add_rental(date, book)
+    @rentals = Rental.new(date, self, book)
   end
 
   attr_reader :id, :rentals
