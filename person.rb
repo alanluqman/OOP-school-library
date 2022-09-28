@@ -6,10 +6,16 @@ class Person < Nameable
     @name = name
     @age = age
     @parent_permission = parent_permission
+    @rentals = []
     super()
   end
 
-  attr_reader :id
+  def add_rental(rental)
+    @rentals.push(rental)
+    rental.person = self
+  end
+
+  attr_reader :id, :rentals
   attr_accessor :name, :age
 
   def of_age?
