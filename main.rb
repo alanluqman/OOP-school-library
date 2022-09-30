@@ -1,5 +1,4 @@
-
-require './app.rb'
+require './app'
 
 def options(num)
   case num
