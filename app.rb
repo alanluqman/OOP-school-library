@@ -1,9 +1,9 @@
-require 'book'
-require 'person'
-require 'rental'
-require 'student'
-require 'teacher'
-require 'classroom'
+require './book'
+require './person'
+require './rental'
+require './student'
+require './teacher'
+require './classroom'
 
 class App
   def initialize
@@ -15,6 +15,10 @@ class App
   end
 
   attr_accessor :book_list, :people
+
+  def run
+    user_input
+  end
 
   def display_books
     puts '----  List of All Books -----'
@@ -47,11 +51,11 @@ class App
   def create_person
     print 'Which person do you want to create ? (1) for Teacher, (2) for Student : '
     input = gets.chomp
-    case input
-    when '1'
-      'method teacher'
-    when '2'
-      'method student'
+    case input.to_i
+    when 1
+      teacher_option
+    when 2
+      student_option
     else
       puts 'you entered invalid in put! Please try again:'
       create_person
@@ -84,38 +88,38 @@ class App
   end
 
   def student_option
-    print '\n Enter student Name : '
+    print ' Enter student Name : '
     name = gets.chomp
-    print '\n Enter student Age : '
+    print ' Enter student Age : '
     age = gets.chomp
-    print '\n Enter student Classroom <number> : '
+    print ' Enter student Classroom <number> : '
     classroom = gets.chomp
     parent_permission = true
     permission?(parent_permission)
-    create_student(age, classroom, name, parent_permission)
-    Puts "---------  New student Added!  ----------- \n
-    #{name} is #{age} years old in classroom #{classroom}"
-    Puts '-------------------------------- '
+    create_student(age.to_i, classroom.to_i, name, parent_permission)
+    puts "---------  New student Added!  ----------- \n
+    #{name} is #{age} years old in classroom #{classroom.to_i}"
+    puts '-------------------------------- '
   end
 
   def teacher_option
-    print '\n Enter teacher Name : '
+    print ' Enter teacher Name : '
     name = gets.chomp
-    print '\n Enter teacher Age : '
+    print ' Enter teacher Age : '
     age = gets.chomp
-    print '\n Enter teacher specialization : '
+    print ' Enter teacher specialization : '
     specialization = gets.chomp
-    create_teacher(specialization, age, name)
-    Puts "---------  New Teacher Added!  ----------- \n
-    #{name} is #{age} years old, specialization is #{specialization}"
-    Puts '-------------------------------- '
+    create_teacher(specialization, age.to_i, name)
+    puts '---------  New Teacher Added!  -----------'
+    puts "#{name} is #{age} years old, specialization is #{specialization}"
+    puts '-------------------------------- '
   end
 
   def create_new_book
     puts '------------ Creating New Book -----------'
-    print '\n Enter Book Title : '
+    print ' Enter Book Title : '
     title = gets.chomp
-    print '\n Enter Book Author : '
+    print ' Enter Book Author : '
     author = gets.chomp
 
     book = Book.new(title, author)
@@ -127,35 +131,35 @@ class App
 
   def create_rental
     puts '------------ Making a New Rental -----------'
-    puts '\n Select a Book from the list below by the number'
+    puts ' Select a Book from the list below by the number'
     display_books
-    print '\n Enter book number : '
-    book_number = gets.chomp.to.i - 1
+    print ' Enter book number : '
+    book_number = gets.chomp
     puts 'Select a Person from the list below by the number'
     list_of_people
-    person_number = gets.chomp.to.i - 1
-    print '\n Enter the Date e.g (2022/9/29) : '
-    date = gets.chomp.to.i
+    person_number = gets.chomp
+    print ' Enter the Date e.g (2022/9/29) : '
+    date = gets.chomp
 
-    rent = Rental.new(date, people[person_number], book_list[book_number])
+    rent = Rental.new(date, people[person_number.to_i - 1], book_list[book_number.to_i - 1])
     @rentals << rent unless @rentals.include?(rent)
+     puts '-------- Rental Created -------'
     puts '-----------------------------'
   end
 
   def rent_list_by_id
     puts '------------ Rental list by ID -----------'
     print '\n Enter the person\'s ID : '
-    id = gets.chomp.to.i
+    id = gets.chomp
     puts '**** Rental list ****'
     if @rentals.empty?
       puts 'No rental recorded !'
     else
       @rentals.select do |rent|
-        if rent.person.id == id
+        if rent.person.id == id.to_i
           puts "Date: #{rent.date}, Book '#{rent.book.title}' by #{rent.book.author}"
         else
-          person = @people[id]
-          puts "#{person.name} does not reantal a book!"
+          puts "#{rent.person.name} does not reantal a book!"
         end
       end
     end
