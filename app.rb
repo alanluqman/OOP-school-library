@@ -39,9 +39,9 @@ class App
     else
       @people.each_with_index do |person, index|
         if person.instance_of?(Student)
-          puts "#{index + 1} -  [Student] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+          puts "#{index + 1} -  #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
         else
-          puts "#{index + 1} - [Teacher] Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+          puts "#{index + 1} - #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
         end
       end
     end
