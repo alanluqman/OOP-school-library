@@ -1,7 +1,7 @@
 require './startup'
 
 class Main
-  def Start
+  def start
     puts "Welcome to the School Library App!\n"
     app = Startup.new
     app.user_input
@@ -9,4 +9,4 @@ class Main
 end
 
 main = Main.new
-main.Start
+main.start
