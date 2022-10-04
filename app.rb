@@ -16,10 +16,6 @@ class App
 
   attr_accessor :book_list, :people
 
-  def run
-    user_input
-  end
-
   def display_books
     puts '----  List of All Books -----'
     if @book_list.empty?
@@ -48,33 +44,6 @@ class App
     puts '-----------------------------'
   end
 
-  def create_person
-    print 'Which person do you want to create ? (1) for Teacher, (2) for Student : '
-    input = gets.chomp
-    case input.to_i
-    when 1
-      teacher_option
-    when 2
-      student_option
-    else
-      puts 'you entered invalid in put! Please try again:'
-      create_person
-    end
-  end
-
-  def permission?(parent_permission)
-    print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp
-    case permission
-    when 'n', 'N'
-      !parent_permission
-    when 'y', 'Y'
-      parent_permission
-    else
-      permission?(parent_permission)
-    end
-  end
-
   def create_student(age, classroom, name, parent_permission)
     student = Student.new(age, classroom, name, parent_permission: parent_permission)
     @people << student unless @people.include?(student)
@@ -87,41 +56,7 @@ class App
     @teachers << teacher unless @teachers.include?(teacher)
   end
 
-  def student_option
-    print ' Enter student Name : '
-    name = gets.chomp
-    print ' Enter student Age : '
-    age = gets.chomp
-    print ' Enter student Classroom <number> : '
-    classroom = gets.chomp
-    parent_permission = true
-    permission?(parent_permission)
-    create_student(age.to_i, classroom.to_i, name, parent_permission)
-    puts "---------  New student Added!  ----------- \n
-    #{name} is #{age} years old in classroom #{classroom.to_i}"
-    puts '-------------------------------- '
-  end
-
-  def teacher_option
-    print ' Enter teacher Name : '
-    name = gets.chomp
-    print ' Enter teacher Age : '
-    age = gets.chomp
-    print ' Enter teacher specialization : '
-    specialization = gets.chomp
-    create_teacher(specialization, age.to_i, name)
-    puts '---------  New Teacher Added!  -----------'
-    puts "#{name} is #{age} years old, specialization is #{specialization}"
-    puts '-------------------------------- '
-  end
-
-  def create_new_book
-    puts '------------ Creating New Book -----------'
-    print ' Enter Book Title : '
-    title = gets.chomp
-    print ' Enter Book Author : '
-    author = gets.chomp
-
+  def create_new_book(title, author)
     book = Book.new(title, author)
     @book_list << book unless @book_list.include?(book)
     puts '------------ New Book Added -----------'
@@ -129,28 +64,14 @@ class App
     -----------------------------------"
   end
 
-  def create_rental
-    puts '------------ Making a New Rental -----------'
-    puts ' Select a Book from the list below by the number'
-    display_books
-    print ' Enter book number : '
-    book_number = gets.chomp
-    puts 'Select a Person from the list below by the number'
-    list_of_people
-    person_number = gets.chomp
-    print ' Enter the Date e.g (2022/9/29) : '
-    date = gets.chomp
-
+  def create_rental(date, person_number, book_number)
     rent = Rental.new(date, people[person_number.to_i - 1], book_list[book_number.to_i - 1])
     @rentals << rent unless @rentals.include?(rent)
     puts '-------- Rental Created -------'
     puts '-----------------------------'
   end
 
-  def rent_list_by_id
-    puts '------------ Rental list by ID -----------'
-    print '\n Enter the person\'s ID : '
-    id = gets.chomp
+  def rent_list_by_id(id)
     puts '**** Rental list ****'
     if @rentals.empty?
       puts 'No rental recorded !'
