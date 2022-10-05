@@ -91,8 +91,12 @@ class Startup
     @app.rent_list_by_id(id)
   end
 
-  def user_input
+  def fetch
     @app.fetch_books
+  end
+
+  def user_input
+    
     puts "
         Please choose an option by entering a number from below:\n
         1 - List all books
