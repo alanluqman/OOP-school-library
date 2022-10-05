@@ -1,4 +1,5 @@
 require './app'
+require 'json'
 
 class Startup
   def initialize
@@ -91,6 +92,7 @@ class Startup
   end
 
   def user_input
+    @app.fetch_books
     puts "
         Please choose an option by entering a number from below:\n
         1 - List all books
@@ -104,6 +106,7 @@ class Startup
     input_num = gets.chomp.to_i
     options(input_num)
     if input_num == 7
+      @app.store_book
       puts '********** Thanks for using our library  ********'
     else
       user_input

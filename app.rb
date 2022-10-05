@@ -86,4 +86,14 @@ class App
     end
     puts '-----------------------------'
   end
+
+  def store_book
+    # books = []
+    # @book_list.each { |book| books << {title: book.title, author: book.author} }
+    File.write("book_list.json", JSON.generate(@book_list))
+  end
+
+  def fetch_books
+    @book_list = JSON.parse(File.read('book_list.json'))
+  end
 end
