@@ -6,15 +6,16 @@ class Startup
     @app = App.new
   end
 
-  def permission?(parent_permission)
+  def permission
     print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp
+    permission = gets.chomp.capitalize
     case permission
-    when 'n', 'N'
-      !parent_permission
-    when 'y', 'Y'
-      parent_permission
+    when 'N'
+      false
+    when 'Y'
+      true
     else
+      puts 'Invalid input'
       permission?(parent_permission)
     end
   end
@@ -26,8 +27,7 @@ class Startup
     age = gets.chomp
     print ' Enter student Classroom <number> : '
     classroom = gets.chomp
-    parent_permission = true
-    permission?(parent_permission)
+    parent_permission = permission
     @app.create_student(age.to_i, classroom.to_i, name, parent_permission)
     puts "---------  New student Added!  ----------- \n
     #{name} is #{age} years old in classroom #{classroom.to_i}"

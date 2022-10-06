@@ -55,7 +55,7 @@ class App
       @people.each_with_index do |person, index|
         if person.instance_of?(Student)
 
-          puts "#{index + 1} -  #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+          puts "#{index + 1} -  #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age}, Permission: #{person.parent_permission}"
 
         else
 
@@ -71,7 +71,7 @@ class App
 
   def create_student(age, classroom, name, parent_permission)
     id = Random.rand(1..100)
-    student = Student.new(age, classroom, name, id, parent_permission: parent_permission)
+    student = Student.new(age, classroom, name, id, parent_permission)
 
     @people << student unless @people.include?(student)
 
@@ -167,7 +167,7 @@ class App
                        id: person.id,
                        name: person.name,
                        age: person.age,
-                       specialization: person.specialization }) 
+                       specialization: person.specialization })
       else
         persons.push({ character: person.class,
                        id: person.id,
@@ -186,7 +186,7 @@ class App
       if person['character'] == 'Teacher'
         @people << Teacher.new(person['specialization'], person['age'], person['name'], person['id'])
       else
-        @people << Student.new(person['age'], person['classroom'], person['name'], person['id'])
+        @people << Student.new(person['age'], person['classroom'], person['name'], person['id'], person['parent_permission'])
       end
     }
   end

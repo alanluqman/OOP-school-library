@@ -5,7 +5,7 @@ class Person < Nameable
     if id == 'undefined'
       @id = Random.rand(1..100)
       else
-        @id = id 
+        @id = id
       end
     @name = name
     @age = age

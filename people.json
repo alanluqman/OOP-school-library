@@ -1,1 +1,1 @@
-[{"character":"Teacher","id":56,"name":"Ernest","age":25,"specialization":"computer"},{"character":"Student","id":5,"name":"Alan","age":27,"classroom":4,"parent_permission":true},{"character":"Student","id":75,"name":"rex","age":16,"classroom":2,"parent_permission":true}]
+[{"character":"Student","id":43,"name":"Ernest","age":23,"classroom":2,"parent_permission":false}]
