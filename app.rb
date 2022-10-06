@@ -152,12 +152,18 @@ class App
     data.each { |book| @book_list << Book.new(book['title'], book['author']) }
   end
 
-  # def store_rentals
-  #   store = []
-  #   @rentals.each { |rent| store.push({ date: rent.date, person: rent.person.name, book: rent.book.title }) }
-  #   data = JSON.generate(store)
-  #   File.write('rentals.json', data)
-  # end
+  def store_rentals
+    store = []
+    @rentals.each { |rent| store.push({ date: rent.date, person: rent.person.name, book: rent.book.title }) }
+    data = JSON.generate(store)
+    File.write('rentals.json', data)
+  end
+
+  def fetch_rentals
+    data = JSON.parse(File.read('rentals.json'))
+    data.each { |rent|
+    }
+  end
 
   def store_person
     persons = []

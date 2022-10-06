@@ -94,6 +94,7 @@ class Startup
   def fetch
     @app.fetch_books
     @app.fetch_people
+    # @app.fetch_rentals
   end
 
   def user_input
@@ -112,6 +113,7 @@ class Startup
     if input_num == 7
       @app.store_book
       @app.store_person
+      @app.store_rentals
       puts '********** Thanks for using our library  ********'
     else
       user_input
