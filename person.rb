@@ -1,8 +1,12 @@
 require './nameable'
 
 class Person < Nameable
-  def initialize(age, name, parent_permission: true)
-    @id = Random.rand(1..100)
+  def initialize(age, name, id = 'undefined', parent_permission: true)
+    if id == 'undefined'
+      @id = Random.rand(1..100)
+      else
+        @id = id 
+      end
     @name = name
     @age = age
     @parent_permission = parent_permission

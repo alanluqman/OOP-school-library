@@ -59,7 +59,7 @@ class App
 
         else
 
-          puts "#{index + 1} - #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age}"
+          puts "#{index + 1} - #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age} , specialization : #{person.specialization}"
 
         end
       end
@@ -70,7 +70,8 @@ class App
   end
 
   def create_student(age, classroom, name, parent_permission)
-    student = Student.new(age, classroom, name, parent_permission: parent_permission)
+    id = Random.rand(1..100)
+    student = Student.new(age, classroom, name, id, parent_permission: parent_permission)
 
     @people << student unless @people.include?(student)
 
@@ -78,7 +79,8 @@ class App
   end
 
   def create_teacher(specialization, age, name)
-    teacher = Teacher.new(specialization, age, name)
+    id = Random.rand(1..100)
+    teacher = Teacher.new(specialization, age, name, id)
 
     @people << teacher unless @people.include?(teacher)
 
@@ -93,6 +95,8 @@ class App
     puts '------------ New Book Added -----------'
 
     puts "#{title} by #{author} added to book list successfuly!\n
+
+
 
     -----------------------------------"
   end
@@ -145,7 +149,45 @@ class App
 
   def fetch_books
     data = JSON.parse(File.read('book_list.json'))
-
     data.each { |book| @book_list << Book.new(book['title'], book['author']) }
+  end
+
+  # def store_rentals
+  #   store = []
+  #   @rentals.each { |rent| store.push({ date: rent.date, person: rent.person.name, book: rent.book.title }) }
+  #   data = JSON.generate(store)
+  #   File.write('rentals.json', data)
+  # end
+
+  def store_person
+    persons = []
+    @people.each { |person|
+      if person.instance_of?(Teacher)
+        persons.push({ character: person.class,
+                       id: person.id,
+                       name: person.name,
+                       age: person.age,
+                       specialization: person.specialization }) 
+      else
+        persons.push({ character: person.class,
+                       id: person.id,
+                       name: person.name,
+                       age: person.age,
+                       classroom: person.classroom,
+                       parent_permission: person.parent_permission })
+      end
+    }
+    File.write('people.json', JSON.generate(persons))
+  end
+
+  def fetch_people
+    data = JSON.parse(File.read('people.json'))
+    data.each { |person|
+      if person['character'] == 'Teacher'
+        @people << Teacher.new(person['specialization'], person['age'], person['name'], person['id'])
+      else
+        @people << Student.new(person['age'], person['classroom'], person['name'], person['id'])
+      end
+    }
   end
 end

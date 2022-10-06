@@ -93,10 +93,10 @@ class Startup
 
   def fetch
     @app.fetch_books
+    @app.fetch_people
   end
 
   def user_input
-    
     puts "
         Please choose an option by entering a number from below:\n
         1 - List all books
@@ -111,6 +111,7 @@ class Startup
     options(input_num)
     if input_num == 7
       @app.store_book
+      @app.store_person
       puts '********** Thanks for using our library  ********'
     else
       user_input
