@@ -160,7 +160,8 @@ class App
       fetch_objects(data)
     end
   end
-# rubocop:disable Metrics/CyclomaticComplexity
+
+  # rubocop:disable Metrics/CyclomaticComplexity
   def fetch_objects(data)
     data.each do |rent|
       p_index = nil

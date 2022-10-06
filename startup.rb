@@ -90,7 +90,8 @@ class Startup
     id = gets.chomp
     @app.rent_list_by_id(id)
   end
-# rubocop:disable Metrics/PerceivedComplexity
+
+  # rubocop:disable Metrics/PerceivedComplexity
   def fetch
     if File.exist?('book_list.json')
       @app.fetch_books
@@ -112,7 +113,7 @@ class Startup
       puts "rentals.json file doesn't exist"
     end
   end
-  # rubocop:disable Metrics/PerceivedComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def user_input
     puts "
