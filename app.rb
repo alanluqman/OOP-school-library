@@ -103,7 +103,6 @@ class App
 
   def create_rental(date, person_number, book_number)
     rent = Rental.new(date, people[person_number.to_i - 1], book_list[book_number.to_i - 1])
-
     @rentals << rent unless @rentals.include?(rent)
 
     puts '-------- Rental Created -------'
@@ -124,11 +123,6 @@ class App
         if rent.person.id == id.to_i
 
           puts "Date: #{rent.date}, Book '#{rent.book.title}' by #{rent.book.author}"
-
-        else
-
-          puts "#{rent.person.name} does not reantal a book!"
-
         end
       end
 
@@ -161,13 +155,27 @@ class App
 
   def fetch_rentals
     data = JSON.parse(File.read('rentals.json'))
-    data.each { |rent|
-    }
+    if data == []
+      puts 'rental storage is empty'
+    else
+      data.each do |rent|
+        p_index = nil
+        @people.each_with_index do |person, index|
+          p_index = index if person.name == rent['person']
+        end
+        b_index = nil
+        @book_list.each_with_index do |book, index|
+          b_index = index if book.title == rent['book']
+        end
+        new_rent = Rental.new(rent['date'], people[p_index], book_list[b_index])
+        @rentals << new_rent unless @rentals.include?(new_rent)
+      end
+    end
   end
 
   def store_person
     persons = []
-    @people.each { |person|
+    @people.each do |person|
       if person.instance_of?(Teacher)
         persons.push({ character: person.class,
                        id: person.id,
@@ -182,18 +190,19 @@ class App
                        classroom: person.classroom,
                        parent_permission: person.parent_permission })
       end
-    }
+    end
     File.write('people.json', JSON.generate(persons))
   end
 
   def fetch_people
     data = JSON.parse(File.read('people.json'))
-    data.each { |person|
-      if person['character'] == 'Teacher'
-        @people << Teacher.new(person['specialization'], person['age'], person['name'], person['id'])
-      else
-        @people << Student.new(person['age'], person['classroom'], person['name'], person['id'], person['parent_permission'])
-      end
-    }
+    data.each do |person|
+      @people << if person['character'] == 'Teacher'
+                   Teacher.new(person['specialization'], person['age'], person['name'], person['id'])
+                 else
+                   Student.new(person['age'], person['classroom'], person['name'], person['id'],
+                               person['parent_permission'])
+                 end
+    end
   end
 end

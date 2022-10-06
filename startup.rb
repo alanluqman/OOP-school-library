@@ -94,7 +94,7 @@ class Startup
   def fetch
     @app.fetch_books
     @app.fetch_people
-    # @app.fetch_rentals
+    @app.fetch_rentals
   end
 
   def user_input
