@@ -1,19 +1,21 @@
 require './app'
+require 'json'
 
 class Startup
   def initialize
     @app = App.new
   end
 
-  def permission?(parent_permission)
+  def permission
     print 'Has parent permission? [Y/N]: '
-    permission = gets.chomp
+    permission = gets.chomp.capitalize
     case permission
-    when 'n', 'N'
-      !parent_permission
-    when 'y', 'Y'
-      parent_permission
+    when 'N'
+      false
+    when 'Y'
+      true
     else
+      puts 'Invalid input'
       permission?(parent_permission)
     end
   end
@@ -25,8 +27,7 @@ class Startup
     age = gets.chomp
     print ' Enter student Classroom <number> : '
     classroom = gets.chomp
-    parent_permission = true
-    permission?(parent_permission)
+    parent_permission = permission
     @app.create_student(age.to_i, classroom.to_i, name, parent_permission)
     puts "---------  New student Added!  ----------- \n
     #{name} is #{age} years old in classroom #{classroom.to_i}"
@@ -90,6 +91,30 @@ class Startup
     @app.rent_list_by_id(id)
   end
 
+  # rubocop:disable Metrics/PerceivedComplexity
+  def fetch
+    if File.exist?('book_list.json')
+      @app.fetch_books
+    else
+      puts "book_list.json file doesn't exist"
+    end
+    if File.exist?('people.json')
+      @app.fetch_people
+    else
+      puts "people.json file doesn't exist"
+    end
+    if File.exist?('rentals.json')
+      if File.exist?('people.json') && File.exist?('book_list.json')
+        @app.fetch_rentals
+      else
+        puts "rentals cannot be fetched because people.json or book_list.json doesn't exist"
+      end
+    else
+      puts "rentals.json file doesn't exist"
+    end
+  end
+  # rubocop:enable Metrics/PerceivedComplexity
+
   def user_input
     puts "
         Please choose an option by entering a number from below:\n
@@ -104,6 +129,9 @@ class Startup
     input_num = gets.chomp.to_i
     options(input_num)
     if input_num == 7
+      @app.store_book
+      @app.store_person
+      @app.store_rentals
       puts '********** Thanks for using our library  ********'
     else
       user_input
