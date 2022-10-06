@@ -92,18 +92,18 @@ class Startup
   end
 
   def fetch
-    if(File.exist?("book_list.json"))
-    @app.fetch_books
+    if File.exist?('book_list.json')
+      @app.fetch_books
     else
       puts "book_list.json file doesn't exist"
     end
-    if(File.exist?("people.json"))
-    @app.fetch_people
+    if File.exist?('people.json')
+      @app.fetch_people
     else
       puts "people.json file doesn't exist"
     end
-    if(File.exist?("rentals.json"))
-      if(File.exist?("people.json") && File.exist?("book_list.json"))
+    if File.exist?('rentals.json')
+      if File.exist?('people.json') && File.exist?('book_list.json')
         @app.fetch_rentals
       else
         puts "rentals cannot be fetched because people.json or book_list.json doesn't exist"

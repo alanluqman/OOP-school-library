@@ -171,11 +171,7 @@ class App
       @book_list.each_with_index do |book, index|
         b_index = index if book.title == rent['book']
       end
-      if p_index && b_index
-        new_rent = Rental.new(rent['date'], people[p_index], book_list[b_index])
-        @rentals << new_rent unless @rentals.include?(new_rent)
-      end
-
+      create_rental(rent['date'], p_index + 1, b_index + 1) if p_index && b_index
     end
   end
 
