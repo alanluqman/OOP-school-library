@@ -55,23 +55,25 @@ class App
       @people.each_with_index do |person, index|
         if person.instance_of?(Student)
 
-          puts "#{index + 1} -  #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age}, Permission: #{person.parent_permission}"
+          puts "#{index + 1} -  #{[person.class]} Name: #{person.name},
+          ID: #{person.id}, Age: #{person.age}, Permission: #{person.parent_permission}"
 
         else
 
-          puts "#{index + 1} - #{[person.class]} Name: #{person.name}, ID: #{person.id}, Age: #{person.age} , specialization : #{person.specialization}"
+          puts "#{index + 1} - #{[person.class]} Name: #{person.name},
+          ID: #{person.id}, Age: #{person.age} , specialization : #{person.specialization}"
 
         end
       end
 
     end
 
-    puts '-----------------------------'
+    puts "\n-----------------------------------------"
   end
 
   def create_student(age, classroom, name, parent_permission)
     id = Random.rand(1..100)
-    student = Student.new(age, classroom, name, id, parent_permission)
+    student = Student.new(age, classroom, name, parent_permission, id)
 
     @people << student unless @people.include?(student)
 
@@ -120,10 +122,7 @@ class App
     else
 
       @rentals.select do |rent|
-        if rent.person.id == id.to_i
-
-          puts "Date: #{rent.date}, Book '#{rent.book.title}' by #{rent.book.author}"
-        end
+        puts "Date: #{rent.date}, Book '#{rent.book.title}' by #{rent.book.author}" if rent.person.id == id.to_i
       end
 
     end
@@ -158,18 +157,22 @@ class App
     if data == []
       puts 'rental storage is empty'
     else
-      data.each do |rent|
-        p_index = nil
-        @people.each_with_index do |person, index|
-          p_index = index if person.name == rent['person']
-        end
-        b_index = nil
-        @book_list.each_with_index do |book, index|
-          b_index = index if book.title == rent['book']
-        end
-        new_rent = Rental.new(rent['date'], people[p_index], book_list[b_index])
-        @rentals << new_rent unless @rentals.include?(new_rent)
+      fetch_objects(data)
+    end
+  end
+
+  def fetch_objects(data)
+    data.each do |rent|
+      p_index = nil
+      @people.each_with_index do |person, index|
+        p_index = index if person.name == rent['person']
       end
+      b_index = nil
+      @book_list.each_with_index do |book, index|
+        b_index = index if book.title == rent['book']
+      end
+      new_rent = Rental.new(rent['date'], people[p_index], book_list[b_index])
+      @rentals << new_rent unless @rentals.include?(new_rent)
     end
   end
 
@@ -200,8 +203,8 @@ class App
       @people << if person['character'] == 'Teacher'
                    Teacher.new(person['specialization'], person['age'], person['name'], person['id'])
                  else
-                   Student.new(person['age'], person['classroom'], person['name'], person['id'],
-                               person['parent_permission'])
+                   Student.new(person['age'], person['classroom'], person['name'], person['parent_permission'],
+                               person['id'])
                  end
     end
   end
