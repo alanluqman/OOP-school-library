@@ -160,20 +160,17 @@ class App
       fetch_objects(data)
     end
   end
-
+# rubocop:disable Metrics/CyclomaticComplexity
   def fetch_objects(data)
     data.each do |rent|
       p_index = nil
-      @people.each_with_index do |person, index|
-        p_index = index if person.name == rent['person']
-      end
+      @people.each_with_index { |person, index| p_index = index if person.name == rent['person'] }
       b_index = nil
-      @book_list.each_with_index do |book, index|
-        b_index = index if book.title == rent['book']
-      end
+      @book_list.each_with_index { |book, index| b_index = index if book.title == rent['book'] }
       create_rental(rent['date'], p_index + 1, b_index + 1) if p_index && b_index
     end
   end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def store_person
     persons = []
