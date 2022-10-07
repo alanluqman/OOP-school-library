@@ -65,7 +65,7 @@ end
 # Test Rental Class
 describe Rental do
   it 'Test Rental attributes and method' do
-    teacher  = Teacher.new('Ruby', 33, 'Ernest')
+    teacher = Teacher.new('Ruby', 33, 'Ernest')
     book = Book.new('Romeo and Juliet', 'William Shakespeare')
     rent = Rental.new('2022/10/06', teacher, book)
 
