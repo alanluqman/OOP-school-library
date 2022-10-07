@@ -1,8 +1,10 @@
+require './decorator'
 require './book'
 require './person'
 require './student'
 require './teacher'
 require './classroom'
+require './rental'
 
 # Test Book Class
 describe Book do
@@ -26,7 +28,7 @@ describe Person do
 end
 
 # Test Student Class
-describe Student do 
+describe Student do
   it 'Test Student attributes' do
     student = Student.new(17, 4, 'Jan', true)
 
@@ -57,5 +59,37 @@ describe Classroom do
 
     expect(new_class.label).to eq 'Legends'
     expect(new_class.student_list).to eq []
+  end
+end
+
+# Test Rental Class
+describe Rental do
+  it 'Test Rental attributes and method' do
+    teacher  = Teacher.new('Ruby', 33, 'Ernest')
+    book = Book.new('Romeo and Juliet', 'William Shakespeare')
+    rent = Rental.new('2022/10/06', teacher, book)
+
+    expect(rent.date).to eq '2022/10/06'
+    expect(rent.person.name).to eq 'Ernest'
+    expect(rent.book.title).to eq 'Romeo and Juliet'
+  end
+end
+
+# Test Decorator pattern classes
+describe CapitalizeDecorator do
+  it 'It should return the correct name' do
+    person = Person.new(30, 'ernest')
+    capitalize = CapitalizeDecorator.new(person)
+
+    expect(capitalize.correct_name).to eq 'Ernest'
+  end
+end
+
+describe TrimmerDecorator do
+  it 'It should return name of a maximum of 10 characters' do
+    person = Person.new(30, 'ernestalanenest')
+    trim = TrimmerDecorator.new(person)
+
+    expect(trim.correct_name).to eq 'ernestalan'
   end
 end
